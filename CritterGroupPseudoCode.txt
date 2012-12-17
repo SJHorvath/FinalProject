@@ -1,0 +1,49 @@
+Critter:
+
+Variables:
+energy (int)
+
+matingThreshold (if energy is above this, readyToMate becomes True)
+
+hungerThreshold (less than mating Threshold: if energy falls below this, readyToMate becomes false)
+
+readyToMate (Boolean)
+
+smellRadius (int - how many squares away the creature's own scent reaches)
+
+senseDistance (int - how many square away the critter can smell OTHER things)
+
+appetite (int - how much energy the critter loses per turn)
+
+Functions:
+
+__init__(self, startingEnergy, senseDistance, appetite, possibly smellRadius) - The traits listed in the constructor are the ones that can evolve - for now we're keeping the two thresholds as constants and readyToMate will always start out false.  We may change this to take a tuple instead of separate values...
+
+getEnergy(self) - Returns energy
+
+addEnergy(self, amount) - Increases critter's energy by [amount], sets readyToMate to True (if it isn't already) if energy is above matingThreshold
+
+loseEnergy(self) - Decreases the critter's energy by [appetite] units, then returns the value of appetite.  Also sets readyToMate to False (if it isn't already) if energy falls below hungerThreshold.
+
+getSenseDistance(self) - Returns senseDistance
+
+getSmellRadius(self) - Returns smellRadius
+
+isReadyToMate(self) - Returns readyToMate
+
+mateWith(self, otherCritter) - returns a tuple of traits (the ones in __init__, in the same order as in __init__) containing randomly-chosen values for each of the "evolving" traits, with the current trait-values of self and otherCritter used as the maximum/minimum of a range:  If one critter has an appetite of 5 and another has an appetite of 12, their child will have a random appetite somewhere between 5 and 12, etc.  This one is hard to test... I guess you'd just make sure the values in the tuple are integers and between the values for self and otherCritter.
+
+move(tuple for critters smelled in each direction, tuple for fruit smelled in each direction) - returns the direction the critter wants to move in (0, 1, 2, or 3, corresponding with the position of that direction in the input tuples).  The world will pass the critter two 4-tuples containing the total "smell" of critters and fruit in each of the four cardinal directions from the critter (up, down, left, right), based on how far it can smell in any given direction (i.e. senseDistance).  If readyToMate is True, the critter will examine the values in the critter tuple, and if readyToMate is False it will examine the fruit tuple.  In either case, the critter will choose the highest value in the tuple and return its corresponding direction, since it wants to move that way.  If multiple values are equal and the highest in the tuple (e.g. two 3s, or all 0s), the critter will choose randomly between them.  A negative value (or maybe the string "block") indicates that the critter will NEVER move in that direction - this is used by the world object to tell a critter that there's a block (or the edge of the map) in that direction.  If the critter gets a tuple that's ALL negative values, it should return -1 to indicate it can't move anywhere.
+
+
+Fruit:
+Variables: smellRadius, energy (same as Critter's)
+
+Functions: loseEnergy(returns energy lost), getEnergy, getSmellRadius  (again, same as Critter's - for now we're going to have a constant "Decay rate" for all fruit, so we don't need an appetite variable)
+
+
+"Organism" superclass - both classes inherit these:
+
+Variables: smellRadius, energy, metabolism (equal to the value of "appetite" in Critters, and the constant decay-rate in fruit)
+
+Functions: loseEnergy(decreases energy by metabolism, returns energy lost), getEnergy, getSmellRadius
