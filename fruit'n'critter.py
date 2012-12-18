@@ -67,7 +67,7 @@ class critter(Object):
 					newHorny = random.random((self.hornyLimit-1), (horny+1))
 				else:
 					newHorny = random.random((horny-1), (self.hornyLimit+1))
-				return (newSmelly, newSmelling, newHungry, newHorny)
+				return (self.energy/2, newSmelly, newSmelling, newHungry, newHorny)
 				self.energy = self.energy/2
 			else:
 				self.energy -= self.metabolism
