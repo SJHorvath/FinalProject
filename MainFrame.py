@@ -11,7 +11,7 @@ import random
 
 class MainFrame:
 
-  def __init__(self):
+	def __init__(self):
 		self.rows = []
 		self.width = 0
 		self.height = 0
