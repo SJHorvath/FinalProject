@@ -94,6 +94,10 @@ class Critter(Organism):
             newSense = int(self.randomBetween( self.sense, otherCritter.sense ))
             newEndurance = int(self.randomBetween( self.getEndurance(), otherCritter.getEndurance() ))
 
+            #Make the critter lose energy after mating, to discourage them from staying in the same place and having lots of babbys
+            for i in range(2):
+                self.loseEnergy()
+
             #Tuple!
             return (newRatio, newSense, newEndurance)
         
