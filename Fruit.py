@@ -17,7 +17,7 @@ class Fruit(Organism):
 
     def loseEnergy(self):
         '''Decreases the fruit's energy by its decay rate, returns the amount of energy lost in case the World needs to refer to it.'''
-        Organism.loseEnergy(self)
+        return Organism.loseEnergy(self)
         self.updateEnergy()
 
 
