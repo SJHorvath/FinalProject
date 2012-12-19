@@ -15,12 +15,12 @@ class Camera:
  
  
         def moveForward(self, amount):
-                self.moveZDirection(amount, self.yRot, self.xRot+90)
+                self.moveZDirection(amount, self.yRot, self.xRot)
+                print self.xRot, " x"
  
  
         def moveBack(self, amount):
-                #self.moveDirection(amount, self.yRot + 180)
-                self.moveZDirection(amount, self.yRot+180, self.zRot+180)
+                self.moveZDirection(amount, self.yRot+180, self.xRot+180)
  
  
         def strafeRight(self, amount):
@@ -43,8 +43,9 @@ class Camera:
         def moveZDirection(self, amount, angle, vertical):
                 self.moveDirection(amount, angle)
                 angle = math.radians(angle)
-                #verticalComponent = -(math.sin(vertical) * amount)
-                #self.y += verticalComponent
+                vertical = math.radians(vertical)
+                verticalComponent = (math.sin(vertical) * amount)
+                self.y += verticalComponent
  
  
         def moveUp(self, amount):
