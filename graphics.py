@@ -142,19 +142,6 @@ def mouseMoved(mouseX, mouseY):
         #Now we use the current coordinates of the mouse as the most recent coordinates.
         mouseLastX = mouseX
         mouseLastY = mouseY
- 
- 
-def Snowman(radius):
-        '''make the snowman'''
-        glColor(1,1,1)
-        #glMaterial(GL_FRONT, GL_AMBIENT, (1, 0, 1))
-        glTranslate(0, radius, 0)
-        glutSolidSphere(.15, 15, 15)
-        glTranslate(0, radius, 0)
-        glutSolidSphere(.1, 15, 15)
-        glTranslate(0, radius-.05, 0)
-        glutSolidSphere(.05, 15, 15)
-        glTranslate(0, -3*radius+.15, 0)
 
 def pacMan(size):
         glPushMatrix()
@@ -163,8 +150,8 @@ def pacMan(size):
         glutSolidSphere(size+.02, 15, 15)
         #glColor(.0, .0, .0)
        
-        glRotate(190, 1, 1, 1)
-    #back endcap
+   glRotate(190, 1, 1, 1)
+	#back endcap
         glBegin(GL_TRIANGLES)
         glColor(0, 0, 0)
         glVertex3f(size, 0, 0)
@@ -190,13 +177,13 @@ def pacMan(size):
         glEnd()
 
         #back
-        glBegin(GL_QUADS)
-        glColor(0, 0, 0)
-        glVertex3f(0, 0, 0)
-        glVertex3f(0, -size, 0)
-        glVertex3f(0, -size, size)
-        glVertex3f(0, 0, size)
-        glEnd()
+        #glBegin(GL_QUADS)
+        #glColor(0, 0, 0)
+        #glVertex3f(0, 0, 0)
+        #glVertex3f(0, -size, 0)
+        #glVertex3f(0, -size, size)
+        #glVertex3f(0, 0, size)
+        #glEnd()
 
         #top
         glBegin(GL_QUADS)
@@ -207,29 +194,27 @@ def pacMan(size):
         glVertex3f(0, -size, size)
         glEnd()
 
-        glRotate(-190, 1, 1, 1)
+	glRotate(-190, 1, 1, 1)
 
-        glTranslate(size*.6 , size*.6, size*.6)
-        glutSolidSphere(size*.2, 10, 10)
-        glTranslate(-size*.6, -size*.6, -size*.6)
-        glTranslate(-size*.6, size*.6, size*.6)
-        glutSolidSphere(size*.2, 10, 10)
-        glTranslate(size*.6, -size*.6, -size*.6)
+	glTranslate(size*.6 , size*.6, size*.6)
+	glutSolidSphere(size*.2, 5, 6)
+	glTranslate(-size*.6, -size*.6, -size*.6)
+	glTranslate(-size*.6, size*.6, size*.6)
+	glutSolidSphere(size*.2, 5, 6)
+	glTranslate(size*.6, -size*.6, -size*.6)
 
         #glTranslate(size*.6 , size*.6, size*.6)
-
-        glutSolidSphere(size, 30, 30)
         glPopMatrix()
 
 def Cone():
         glTranslate(0, 0, 0)
         glColor(0.82, 0.41, 0.12)
         glRotate(90,1,0,0)
-        glutSolidCone(.15, .25, 15, 15)
+        glutSolidCone(.15, .25, 10, 10)
 
         glTranslate(0, 0, -.15)
         glColor(1, 0.41, 0.71)
-        glutSolidSphere(.2, 15, 15)
+        glutSolidSphere(.2, 8, 10)
 
 def Block():
         glColor3f(0.421, 0.480, 0.542)
@@ -256,45 +241,37 @@ def drawScene():
        
         #Draw the ground... adapted from C++ code found at http://www.lighthouse3d.com/opengl/picking/index.php3?color1
    
-        glTranslate(0,-0.5,0)
+        glTranslate(-1,-0.5,-1)
         glColor3f(0.1,0.9,0.1)
 
         glBegin(GL_QUADS)
-        glVertex3f(-100, 0, -100)
-        glVertex3f(-100, 0,  100)
-        glVertex3f( 100, 0,  100)
-        glVertex3f( 100, 0, -100)
+        glVertex3f(-12, 0, -12)
+        glVertex3f(-12, 0,  12)
+        glVertex3f( 12, 0,  12)
+        glVertex3f( 12, 0, -12)
         glEnd()
         #It's [slate] grey!
-        # glPushMatrix()
-        # glTranslate(-10,-0.5,-10)
-        # glColor3f(0.421, 0.480, 0.542)
-   
-        # glColor3f(.3,.3,.3);
-        # glBegin(GL_QUADS);
-        # glVertex3f( -10,-0.001, -10);
-        # glVertex3f( -10,-0.001, 10);
-        # glVertex3f(10,-0.001,10);
-        # glVertex3f(10,-0.001,-10);
-        # glEnd();
+        glPushMatrix()
+        glTranslate(-10,0.01,-10)
+        glColor3f(0.421, 0.480, 0.542)
+  
 
-        # glBegin(GL_LINES);
-        # for i in range(-20,20):
-        #     if i == 0:
-        #         glColor3f(.6,.3,.3); 
-        #     else:
-        #         glColor3f(.75,.75,.75); 
-        #     glVertex3f(i,0,0);
-        #     glVertex3f(i,0,20);
-        #     if i==0: 
-        #         glColor3f(.3,.3,.6); 
-        #     else:
-        #         glColor3f(.75,.75,.75);
-        #         glVertex3f(0,0,i);
-        #         glVertex3f(20,0,i);
-      
-        # glEnd()
-        # glPopMatrix()
+        glBegin(GL_LINES);
+        for i in range(-2,22):
+            if i <= 0:
+                glColor3f(.6,.3,.3); 
+            else:
+                glColor3f(.75,.75,.75);         
+            glVertex3f(i,0,0);
+            glVertex3f(i,0,22);
+            if i==0: 
+                glColor3f(.3,.3,.6); 
+            else:
+                glColor3f(.75,.75,.75);
+                glVertex3f(0,0,i);
+                glVertex3f(22,0,i);
+        glEnd()
+        glPopMatrix()
  
    
 def display(x=0, y=0):
@@ -319,4 +296,3 @@ def display(x=0, y=0):
  
 if __name__ == '__main__':
         main()
-        
