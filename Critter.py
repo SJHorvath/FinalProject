@@ -126,28 +126,34 @@ class Critter(Organism):
         self.checkHunger()
         self.updateSmell()
 
-
+        
     def pickHighest(self, choices):
         '''Takes a list of smells for each direction, returns a value correpsonding to the index of the direction with the highest smell. If multiple directions have the same smell value, the critter will choose randomly between them.'''
         directionList = []
-
+        
         #Create a list of tuples, each containing a (smell value, direction it corresponds to) pair...
         for i in range(len(choices)):
             directionList.append((choices[i], i))
-
+    
         #...Which makes it easy to choose the value with the strongest smell while remembering which direction it corresponds to.
         #sort() sorts by the first item in a tuple by default
-        directionList.sort(reverse=True)
+        directionList.sort(reverse=False)
+        print directionList
         spotCheck = []
-        for i in range(0, len(directionList)):
-            if directionList[3][0] > directionList[3-(i+1)][0]:
-                    if i > 0:
-                        spotCheck.append((3-i):4)
-                        choice = random.choice(spotCheck)
-                        return directionList[choice][1]
-                    else:
-                        return directionsList[3][1]
-                        
+        for i in range(0, len(directionList)+1):
+            	if directionList[3][0] > directionList[3-(i+1)][0]:		
+            		j = 0			
+            		while j < i:
+            			spotCheck.append(3-j)
+            			j+=1
+        		if len(spotCheck) != 0:
+        			choice = random.choice(spotCheck)			
+        			return directionList[choice][1]
+        			break
+        		else:
+        			return directionList[3][1]			
+        			break
+        		break
 
         #Now, choose a random direction with the "best smell" and return its original index.
        # return directionList[ int(round(random.triangular(0, choiceRange))) ][1]
