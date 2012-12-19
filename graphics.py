@@ -4,6 +4,7 @@ from OpenGL.GL import *
 import MainFrame
 import sys, random, math
 import Camera
+import time
  
 NAME = 'Snowmen!'
 WINDOW_WIDTH = 1000
@@ -12,6 +13,8 @@ WINDOW_HEIGHT = 700
 myFrame = MainFrame.MainFrame()
 myFrame.createMatrix(20, 20)
 myFrame.start()
+Lists = myFrame.iterate()
+framecounter = 0
 #myFrame.printMatrix()
 
  
@@ -244,7 +247,11 @@ def Block():
 def drawScene():
         '''Draws the entire scene to be viewed, consisting of three snowmen of different sizes and a grey floor.'''
 	
-	Lists = myFrame.iterate()
+	global framecounter
+	global myFrame
+	global Lists
+	if (framecounter%5 == 0):
+		Lists = myFrame.iterate()
 	jcounter = -10
 	icounter = -10
 	for List in Lists:
@@ -264,6 +271,9 @@ def drawScene():
 			jcounter += 1
 		jcounter = -10
 		icounter += 1
+	framecounter += 1
+
+		
 
 
         #Draw the ground... adapted from C++ code found at http://www.lighthouse3d.com/opengl/picking/index.php3?color1
