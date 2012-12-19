@@ -13,7 +13,6 @@ myFrame = MainFrame.MainFrame()
 myFrame.createMatrix(20, 20)
 myFrame.start()
 #myFrame.printMatrix()
-Lists = myFrame.iterate()
 
  
 #Create a "blank" camera that can be accessed by all functions... this is probably the wrong way to do it...
@@ -244,6 +243,8 @@ def Block():
  
 def drawScene():
         '''Draws the entire scene to be viewed, consisting of three snowmen of different sizes and a grey floor.'''
+	
+	Lists = myFrame.iterate()
 	jcounter = -10
 	icounter = -10
 	for List in Lists:
@@ -263,18 +264,8 @@ def drawScene():
 			jcounter += 1
 		jcounter = -10
 		icounter += 1
-        #For List in Lists:
-         #       for L in List:
-          #              glPushMatrix()
-           #             glTranslatef(i*1.05,0,j * 1.05)
-            #            if L == -1:
-             #                   Block()
-              #          elif L == 2:
-               #                 Cone()
-                #        elif L == 3:
-                 #               pacMan(.2)
-                  #      glPopMatrix()
-       
+
+
         #Draw the ground... adapted from C++ code found at http://www.lighthouse3d.com/opengl/picking/index.php3?color1
    
         glTranslate(0,-0.5,0)
