@@ -139,7 +139,7 @@ class Critter(Organism):
         #sort() sorts by the first item in a tuple by default
         directionList.sort(reverse=True)
 
-        if directionList[0] >= 0:
+        if directionList[0][0] >= 0:
             #Figure out if several values in the list are equal - if so, we need to choose randomly between them.
             #Our choices can easily be represented as a range between 0 and [number of equal largest values] to choose from:
             choiceRange = 0
