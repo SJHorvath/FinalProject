@@ -139,18 +139,10 @@ class Critter(Organism):
         #sort() sorts by the first item in a tuple by default
         directionList.sort(reverse=True)
 
-        #Figure out if several values in the list are equal - if so, we need to choose randomly between them.
-        #Our choices can easily be represented as a range between 0 and [number of equal largest values] to choose from:
-        choiceRange = 0
-        
-        for i in range(1, len(directionList)):
-            #If we've reached the point where an item is not equal to the first - and therefore highest - value, we don't make our range any bigger.
-            if directionList[i][0] != directionList[0][0]:
-                break
-
-            else:
-                #Otherwise, expand the range to include this value, since it too is equal to the "best smell."
-                choiceRange += 1
+        for i in range(0, len(directionList)):
+            if directionList[3] != directionList[3-(i+1)]:
+                    return directionList[
+                        
 
         #Now, choose a random direction with the "best smell" and return its original index.
         return directionList[ int(round(random.triangular(0, choiceRange))) ][1]
