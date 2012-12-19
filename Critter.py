@@ -112,7 +112,7 @@ class Critter(Organism):
         sortingList = [value1, value2]
         sortingList.sort()
 
-        return random.triangular(sortingList[0], sortingList[1])
+        return random.randint(sortingList[0], sortingList[1])
 
 
     def getEndurance(self):
@@ -138,14 +138,19 @@ class Critter(Organism):
         #...Which makes it easy to choose the value with the strongest smell while remembering which direction it corresponds to.
         #sort() sorts by the first item in a tuple by default
         directionList.sort(reverse=True)
-
+        spotCheck = []
         for i in range(0, len(directionList)):
-            if directionList[3] != directionList[3-(i+1)]:
-                    return directionList[
+            if directionList[3][0] > directionList[3-(i+1)][0]:
+                    if i > 0:
+                        spotCheck.append((3-i):4)
+                        choice = random.choice(spotCheck)
+                        return directionList[choice][1]
+                    else:
+                        return directionsList[3][1]
                         
 
         #Now, choose a random direction with the "best smell" and return its original index.
-        return directionList[ int(round(random.triangular(0, choiceRange))) ][1]
+       # return directionList[ int(round(random.triangular(0, choiceRange))) ][1]
 
         #1. Can't return correct direction, only returns random direction
         #2. random direction can include moving to edge
