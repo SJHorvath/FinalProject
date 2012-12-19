@@ -22,12 +22,12 @@ class MainFrame:
 		self.width = 0
 		self.height = 0
 		self.totalEnergy = 0
-		self.energyLimit = 300
+		self.energyLimit = 500
 		self.critterCounter = 0
 		self.fruitCounter = 0
 		self.fruitEnergy = 10
 		self.critterEnergy = 100
-		self.radius = 2
+		self.radius = 3
 
 	def createMatrix(self, width, height):
 		'''Creates list of lists (matrix).'''
@@ -267,18 +267,23 @@ class MainFrame:
 		print hungerList
 		critter = self.critterList[index]
 		x = critter[1]
+		print "critter x:", x
 		y = critter[2]
+		print "critter y:", y
 		radius = critter[0].getSmellDistance()
 		radiusList = self.createRadius(x, y, radius)
 		blockRadiusList = self.createBlockRadius(x, y, radius)
+		
 
 		for fruit in self.fruitList:
 			fruitX = fruit[1]
+			print "fruit x:", fruitX
 			fruitY = fruit[2]
+			print "fruit y:", fruitY
 			for coordinates in radiusList:
 				if (fruitX, fruitY) == coordinates:
-					desireX = math.ceil((float(fruitX) - float(x)) / self.radius)
-					desireY = math.ceil((float(fruitY) - float(y)) / self.radius)
+					desireX = int(math.ceil((float(fruitX) - float(x)) / self.radius))
+					desireY = int(math.ceil((float(fruitY) - float(y)) / self.radius))
 					if desireX < 0:
 						hungerList[2] += abs(desireX)
 						print desireX
@@ -314,6 +319,7 @@ class MainFrame:
 					if ydirect < 0:
 						hungerList[3] += -1
 						print "4!"
+		# print self.blockList
 		print hungerList
 		return hungerList
 
@@ -333,8 +339,8 @@ class MainFrame:
 			critterY = critter[2]
 			for coordinates in radiusList:
 				if (critterX, critterY) == coordinates:
-					desireX = critterX - x
-					desireY = critterY - y
+					desireX = int(math.ceil((float(critterX) - float(x)) / self.radius))
+					desireY = int(math.ceil((float(critterY) - float(y)) / self.radius))
 					if desireX > 0:
 						hornyList[2] += desireX
 					else:
@@ -370,45 +376,45 @@ class MainFrame:
 		# 	y = critter[2]
 		# 	print (x, y)
 
-if __name__ == "__main__":
-	myFrame = MainFrame()
-	myFrame.createMatrix(10, 10)
-	myFrame.start()
-	myFrame.printMatrix()
-	print
-	# # print
-	myFrame.printStuff()
-	myFrame.iterate()
-	myFrame.printMatrix()
-	myFrame.printStuff()
-	myFrame.iterate()
-	myFrame.printMatrix()
-	myFrame.printStuff()
-	myFrame.iterate()
-	myFrame.printMatrix()
-	myFrame.printStuff()
-	myFrame.iterate()
-	myFrame.printMatrix()
-	# myFrame.printStuff()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printMatrix()
+#if __name__ == "__main__":
+# 	myFrame = MainFrame()
+# 	myFrame.createMatrix(6, 6)
+# 	myFrame.start()
+# 	myFrame.printMatrix()
+# 	print
+# 	# # print
+# 	myFrame.printStuff()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.printStuff()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.printStuff()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.printStuff()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.printStuff()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	myFrame.iterate()
+# 	myFrame.printMatrix()
+# 	# myFrame.iterate()
+# 	# myFrame.printMatrix()
+# 	# myFrame.iterate()
+# 	# myFrame.printMatrix()
+# 	# myFrame.iterate()
+# 	# myFrame.printMatrix()
