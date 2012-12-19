@@ -49,7 +49,7 @@ class Critter(Organism):
         '''Takes any objects the critter has colided with from the World. If it has collided with another critter, it returns the traits of any offspring they would have. If it has collided with a fruit, it adds the fruit's energy to its own. In both cases the World is responsible for creating/destroying critters and fruits.'''
         #If we were passed a critter, mate with it.
         if passed.__type__ == "Critter":
-            self.mate(passed)
+            return self.mate(passed)
             
         #If we were passed a fruit, eat it.
         elif passed.__type__ == "Fruit":
