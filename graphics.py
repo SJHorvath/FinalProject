@@ -1,4 +1,7 @@
 
+
+
+
 from OpenGL.GLUT import *
 from OpenGL.GLU import *
 from OpenGL.GL import *
@@ -66,23 +69,34 @@ def initGL(Width, Height):
  
  
 def initLighting():
-        '''Sets up the lighting under which the scene is viewed.'''
-   
-        light_diffuse = (.5, .5, .5, .5)
-        light_position = (.05, .1, -.5, 1)
-        glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
-        glLightfv(GL_LIGHT0, GL_POSITION, light_position)
- 
-        #light_ambient = (.5, .5, .5, 1)
-        #light_position = (0, 0, 1, 0)
-        #glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient)
-        #glLightfv(GL_LIGHT1, GL_POSITION, light_position)
-        glEnable(GL_COLOR_MATERIAL);
-        glEnable(GL_DEPTH_TEST)
-        glEnable(GL_LIGHTING)
-        glEnable(GL_LIGHT0)
-        glEnable(GL_LIGHT1)
-        glShadeModel(GL_SMOOTH)
+ 	'''Sets up the lighting under which the scene is viewed.'''
+
+		glEnable(GL_LIGHTING)
+		glEnable(GL_LIGHT0)
+		glEnable(GL_DEPTH_TEST)
+		glEnable(GL_LIGHT1)
+		glShadeModel(GL_SMOOTH)
+
+		ambientLight = ( 0.2, 0.2, 0.2, 1.0 );
+		diffuseLight = ( 0.8, 0.8, 0.8, 1.0 );
+		specularLight = ( 0.5, 0.5, 0.5, 1.0 );
+		position = ( -1.5, 1.0, -4.0, 1.0 );
+
+		glLightfv(GL_LIGHT0, GL_AMBIENT, ambientLight);
+		glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuseLight);
+		glLightfv(GL_LIGHT0, GL_SPECULAR, specularLight);
+		glLightfv(GL_LIGHT0, GL_POSITION, position)	
+
+		glEnable(GL_COLOR_MATERIAL);
+		glColorMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE);
+
+
+
+		specReflection = ( 0.6, 0.6, 0.6, 1.0 )
+		glMaterialfv(GL_FRONT, GL_SPECULAR, specReflection);
+		glMateriali(GL_FRONT, GL_SHININESS, 96);
+
+
  
  
  
@@ -231,7 +245,7 @@ def drawScene():
         for i in range(-10,10):
                 for j in range(-10,10):
                         glPushMatrix()
-            #glMaterial(GL_FRONT, , (.2*i, .2*j, .2));
+                        #glMaterial(GL_FRONT, GL_AMBIENT_AND_DIFFUSE , (.2*i, .2*j, .2));
                         glTranslatef(i*1.05,0,j * 1.05)
  
                         if i == 2:
