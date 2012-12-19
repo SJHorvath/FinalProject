@@ -21,7 +21,7 @@ class MainFrame:
 		self.width = 0
 		self.height = 0
 		self.totalEnergy = 0
-		self.energyLimit = 800
+		self.energyLimit = 300
 		self.critterCounter = 0
 		self.fruitCounter = 0
 		self.fruitEnergy = 10
@@ -59,8 +59,10 @@ class MainFrame:
 
 	def printMatrix(self):
 		'''prints matrix neatly.'''
+		print
 		for row in self.rows:
 			print row
+		print
 
 	def createVisuals(self):
 		'''Calls visual functions.'''
@@ -77,7 +79,7 @@ class MainFrame:
 
 	def deleteCritter(self, index):
 		self.critterList.pop(index)
-		totalEnergy += -self.critterEnergy
+		self.totalEnergy += -self.critterEnergy
 
 	def createFruit(self):
 		'''adds a fruit at a random spot on the grid.'''
@@ -90,7 +92,7 @@ class MainFrame:
 
 	def deleteFruit(self, index):
 		self.fruitList.pop(index)
-		totalEnergy += -self.fruitEnergy
+		self.totalEnergy += -self.fruitEnergy
 
 	def createBlock(self):
 		'''adds a block at a random spot on the grid.'''
@@ -142,7 +144,6 @@ class MainFrame:
 		if self.totalEnergy < (self.energyLimit - self.fruitEnergy):
 			self.createFruit()
 			self.totalEnergy += self.fruitEnergy
-			print self.totalEnergy
 			self.maintainTotalEnergy()
 
 	def fruitCollide(self, critterIndex, fruitIndex):
@@ -184,10 +185,10 @@ class MainFrame:
 		'''Creates a certain number of critters, with sequential names'''
 		for i in range(number):
 			startingEnergy = random.randrange(100, 130)
-			smellRadius = random.randrange(1, 5)
-			startingSmell = random.randrange(1, 5)
+			senseOfSmell = random.randrange(1, 3)
+			smellRatio = random.randrange(1, 5)
 			endurance = random.randrange(0, 100, 10)
-			self.createCritter(startingEnergy, smellRadius, startingSmell, endurance)
+			self.createCritter(startingEnergy, senseOfSmell, smellRatio, endurance)
 
 	def generateName(self, type):
 		if type == "c":
@@ -199,9 +200,9 @@ class MainFrame:
 		return nameString
 
 	def start(self):
-		for i in range(8):
-			self.createBlock()
-		self.createInitialCritters(5)
+		# for i in range(8):
+		# 	self.createBlock()
+		self.createInitialCritters(2)
 		self.maintainTotalEnergy()
 
 	def iterate(self):
@@ -223,19 +224,24 @@ class MainFrame:
 		return self.rows
 
 	def myMove(self, index, direction):
+		print "direction:", direction
 		item = self.critterList[index]
 		xInit = item[1]
-		yInit = item[2]
+		yInit = item[2]	
 		xFinal = item[1]
 		yFinal = item[2]
-		if direction == 1:
-			xFinal += -1
-		if direction == 2:
-			yFinal += 1
-		if direction == 3:
-			xFinal += 1
 		if direction == 0:
+			xFinal += -1
+			print "moved"
+		if direction == 1:
+			yFinal += 1
+			print "moved"
+		if direction == 2:
+			xFinal += 1
+			print "moved"
+		if direction == 3:
 			yFinal += -1
+			print "moved"
 		self.critterList[index][1] = xFinal
 		self.critterList[index][2] = yFinal
 		self.setMatrixValue(xFinal, yFinal, 3)
@@ -281,7 +287,7 @@ class MainFrame:
 						hungerList[1] += -1
 					else:
 						hungerList[3] += -1
-
+		print hungerList
 		return hungerList
 
 	def makeHornyList(self, index):
@@ -309,6 +315,21 @@ class MainFrame:
 						hornyList[1] += desireY
 					else:
 						hornyList[3] += abs(desireY)
+
+		for coordinates in self.blockList:
+			for radiusCords in radiusList:
+				if coordinates == radiusCords:
+					_x, _y = coordinates
+					xdirect = _x - x
+					ydirect = _y - y
+					if xdirect > 0:
+						hornyList[2] += -1
+					else:
+						hornyList[0] += -1
+					if ydirect > 0:
+						hornyList[1] += -1
+					else:
+						hornyList[3] += -1
 		return hornyList
 
 	def printStuff(self):
@@ -316,28 +337,50 @@ class MainFrame:
 		print "fruits: ", len(self.fruitList)
 		print "critters: ", len(self.critterList)
 		print "total energy: ", self.totalEnergy
+		for critter in self.critterList:
+			x = critter[1]
+			y = critter[2]
+			print (x, y)
 
 if __name__ == "__main__":
 	myFrame = MainFrame()
-	myFrame.createMatrix(8, 8)
+	myFrame.createMatrix(10, 10)
 	myFrame.start()
 	myFrame.printMatrix()
-	# print
-	# myFrame.printStuff()
-	myFrame.iterate()
+	print
+	# # print
 	myFrame.printStuff()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.printStuff()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.printStuff()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.printStuff()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.printStuff()
+	myFrame.iterate()
 	myFrame.printMatrix()
 	myFrame.iterate()
-	myFrame.printStuff()
 	myFrame.printMatrix()
-	# myFrame.iterate()
-	# myFrame.printStuff()
-	# myFrame.iterate()
-	# myFrame.printStuff()
-	# myFrame.iterate()
-	# myFrame.printStuff()
-	# myFrame.iterate()
-	# myFrame.printStuff()
-	# myFrame.iterate()
-	# myFrame.printStuff()
-	# print myFrame.createRadius(1, 1, 20)
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.iterate()
+	myFrame.printMatrix()
+	myFrame.iterate()
+	myFrame.printMatrix()
