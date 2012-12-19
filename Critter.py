@@ -35,7 +35,7 @@ class Critter(Organism):
 
         
     def move(self, critterList, fruitList):
-        '''Takes two tuples from the World, containing the total smell of critters and fruit (respectively) in each of the four cardinal directions. The critter then moves toward direction with the strongest smell: if it is hungry, it seeks out fruit. Otherwise, it seeks out other critters to reproduce.'''
+        '''Takes two lists from the World, containing the total smell of critters and fruit (respectively) in each of the four cardinal directions. The critter then moves toward direction with the strongest smell: if it is hungry, it seeks out fruit. Otherwise, it seeks out other critters to reproduce.'''
         if self.hungry:
             #If the critter is hungry, it checks fruit-smells in each direction.
             return self.pickHighest(fruitList)
@@ -99,7 +99,8 @@ class Critter(Organism):
                 self.loseEnergy()
 
             #Tuple!
-            return (newRatio, newSense, newEndurance)
+            NRG = self.energy / 2
+            return (NRG, newRatio, newSense, newEndurance)
         
         else:
             return None
@@ -153,3 +154,6 @@ class Critter(Organism):
 
         #Now, choose a random direction with the "best smell" and return its original index.
         return directionList[ int(round(random.triangular(0, choiceRange))) ][1]
+
+        #1. Can't return correct direction, only returns random direction
+        #2. random direction can include moving to edge
