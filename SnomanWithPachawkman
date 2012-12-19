@@ -17,6 +17,8 @@ mouseLastY = WINDOW_HEIGHT / 2
  
 #List of currently-pressed keys, allowing OpenGL to process multiple keypresses:
 keyQueue = []
+
+SIM_WIDTH = 15
  
 def main():
         '''Initiates the window and GL system, then starts the program's main loop.'''
@@ -245,41 +247,33 @@ def drawScene():
         glColor3f(0.1,0.9,0.1)
 
         glBegin(GL_QUADS)
-        glVertex3f(-100, 0, -100)
-        glVertex3f(-100, 0,  100)
-        glVertex3f( 100, 0,  100)
-        glVertex3f( 100, 0, -100)
+        glVertex3f(-SIM_WIDTH, 0, -SIM_WIDTH)
+        glVertex3f(-SIM_WIDTH, 0,  SIM_WIDTH)
+        glVertex3f( SIM_WIDTH, 0,  SIM_WIDTH)
+        glVertex3f( SIM_WIDTH, 0, -SIM_WIDTH)
         glEnd()
         #It's [slate] grey!
-        # glPushMatrix()
-        # glTranslate(-10,-0.5,-10)
-        # glColor3f(0.421, 0.480, 0.542)
-   
-        # glColor3f(.3,.3,.3);
-        # glBegin(GL_QUADS);
-        # glVertex3f( -10,-0.001, -10);
-        # glVertex3f( -10,-0.001, 10);
-        # glVertex3f(10,-0.001,10);
-        # glVertex3f(10,-0.001,-10);
-        # glEnd();
+        glPushMatrix()
+        glTranslate(-10,0.01,-10)
+        glColor3f(0.421, 0.480, 0.542)
+  
 
-        # glBegin(GL_LINES);
-        # for i in range(-20,20):
-        #     if i == 0:
-        #         glColor3f(.6,.3,.3); 
-        #     else:
-        #         glColor3f(.75,.75,.75); 
-        #     glVertex3f(i,0,0);
-        #     glVertex3f(i,0,20);
-        #     if i==0: 
-        #         glColor3f(.3,.3,.6); 
-        #     else:
-        #         glColor3f(.75,.75,.75);
-        #         glVertex3f(0,0,i);
-        #         glVertex3f(20,0,i);
-      
-        # glEnd()
-        # glPopMatrix()
+        glBegin(GL_LINES);
+        for i in range(-2,22):
+            if i <= 0:
+                glColor3f(.6,.3,.3); 
+            else:
+                glColor3f(.75,.75,.75);			
+            glVertex3f(i,0,0);
+            glVertex3f(i,0,22);
+            if i==0: 
+                glColor3f(.3,.3,.6); 
+            else:
+                glColor3f(.75,.75,.75);
+                glVertex3f(0,0,i);
+                glVertex3f(22,0,i);
+        glEnd()
+        glPopMatrix()
  
    
 def display(x=0, y=0):
