@@ -134,6 +134,9 @@ def initGL(Width, Height):
         # Calculate The Aspect Ratio Of The Window
         gluPerspective(45.0, float(Width)/float(Height), 0.1, 100.0)
         glMatrixMode(GL_MODELVIEW)
+
+        global_ambient = ( 0.5, 0.5, 0.5, 1.0 );
+        glLightModelfv(GL_LIGHT_MODEL_AMBIENT, global_ambient);
  
  
 def initLighting():
@@ -226,6 +229,58 @@ def Snowman(radius):
         glTranslate(0, radius-.05, 0)
         glutSolidSphere(.05, 15, 15)
         glTranslate(0, -3*radius+.15, 0)
+
+def pacMan(size):
+        glPushMatrix()
+        glutSolidSphere(size+.02, 30, 30)
+        #glColor(.0, .0, .0) 
+       
+        glBegin(GL_TRIANGLES)
+        glColor(0, 0, 0)
+        glVertex3f(size, 0, 0)
+        glVertex3f(0, -size, 0)
+        glVertex3f(0, -size, 0)
+        glEnd()
+
+        # front endcap
+        glBegin(GL_TRIANGLES)
+        glColor(0, 0, 0)
+        glVertex3f(size, 0, size)
+        glVertex3f(0, 0, size)
+        glVertex3f(0, -size , size)
+        glEnd()
+
+        #bottom
+        glBegin(GL_QUADS)
+        glColor(0, 0, 0)
+        glVertex3f(0, 0, 0)
+        glVertex3f(size, 0, 0)
+        glVertex3f(size, 0, size)
+        glVertex3f(0, 0, size)
+        glEnd()
+
+        #back
+        glBegin(GL_QUADS)
+        glColor(0, 0, 0)
+        glVertex3f(0, 0, 0)
+        glVertex3f(0, -size, 0)
+        glVertex3f(0, -size, size)
+        glVertex3f(0, 0, size)
+        glEnd()
+
+        #top
+        glBegin(GL_QUADS)
+        glColor(0, 0, 0)
+        glVertex3f(0, -size, 0)
+        glVertex3f(size, 0, 0)
+        glVertex3f(size, 0, size)
+        glVertex3f(0, -size, size)
+        glEnd()
+
+        glRotate(-26, 1, 1, 1)
+        
+        glutSolidSphere(size, 30, 30)
+        glPopMatrix()
  
  
 def drawScene():
@@ -244,12 +299,14 @@ def drawScene():
                         elif j == 3:
                                 Snowman(.13)
                         else:
-                                Snowman(.17)
+                                pacMan(.3)
                         glPopMatrix()
        
         #Draw the ground... adapted from C++ code found at http://www.lighthouse3d.com/opengl/picking/index.php3?color1
    
         #It's [slate] grey!
+        glPushMatrix()
+        glTranslate(0,-0.5,0)
         glColor3f(0.421, 0.480, 0.542)
    
         glBegin(GL_QUADS)
@@ -258,6 +315,7 @@ def drawScene():
         glVertex3f( 100, 0,  100)
         glVertex3f( 100, 0, -100)
         glEnd()
+        glPopMatrix()
  
    
 def display(x=0, y=0):
