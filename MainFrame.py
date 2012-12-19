@@ -23,6 +23,8 @@ class MainFrame:
 		self.energyLimit = 2000
 		self.critterCounter = 0
 		self.fruitCounter = 0
+		self.fruitEnergy = 10
+		self.critterEnergy = 100
 
 	def createMatrix(self, width, height):
 		'''Creates list of lists (matrix).'''
@@ -64,15 +66,24 @@ class MainFrame:
 		row[y] = 3
 		individualCritter = [Critter(startingEnergy, smellRadius, startingSmell), x, y]
 		self.critterList.append[individualCritter]
+		self.totalEnergy += self.critterEnergy
+
+	def deleteCritter(self, index):
+		self.critterList.pop(index)
+		totalEnergy += -self.critterEnergy
 
 	def createFruit(self):
 		'''adds a fruit at a random spot on the grid.'''
 		x, y = self.randomCoordinate()
 		row = self.rows[x]
 		row[y] = 2
-		#create fruit
-		#set fruit location (object)
-		#add fruit to self.fruitList
+		individualCritter = [Critter(startingEnergy, smellRadius, startingSmell), x, y]
+		self.critterList.append[individualCritter]
+		self.totalEnergy += self.fruitEnergy
+
+	def deleteFruit(self, index):
+		self.fruitList.pop(index)
+		totalEnergy += -self.fruitEnergy
 
 	def createBlock(self):
 		'''adds a block at a random spot on the grid.'''
@@ -107,21 +118,45 @@ class MainFrame:
 		return radiusPoints
 
 	def maintainTotalEnergy(self):
-		if self.totalEnergy < (self.energyLimit - 10):
+		if self.totalEnergy < (self.energyLimit - self.fruitEnergy):
 			createFruit()
-			self.totalEnergy += 10
+			self.totalEnergy += self.fruitEnergy
 			maintainTotalEnergy()
 
-	def collide(self, object1, object2):
-		pass
+	def fruitCollide(self, critterIndex, fruitIndex):
+		critterX = self.critterList[critterIndex][1]
+		critterY = self.critterList[critterIndex][2]
+		fruitX = self.fruitList[fruitIndex][1]
+		fruitY = self.fruitList[fruitIndex][2]
+		if critterX == fruitX and critterY == fruitY:
+			return True
+		else:
+			return False
 
-	def createCritters(self, number):
+	def critterCollide(self, index1, index2):
+		x1 = self.critterList[index1][1]
+		y1 = self.critterList[index1][2]
+		x2 = self.critterList[index2][1]
+		y2 = self.critterList[index2][2]
+
+		set1 = createRadius(x1, y1, 1)
+		set2 = createRadius(x2, y2, 1)
+
+		for i in range(len(set1)):
+			if set1[i] = (x2, y2):
+				critter1 = 
+		for z in range(len(set2)):
+			if set2[z] = (x1, y1):
+				return True
+		return False
+
+	def createInitialCritters(self, number):
 		'''Creates a certain number of critters, with sequential names'''
-		names = []
 		for i in range(number):
-			names.append(self.generateName("c"))
-		for name in names:
-			createCritter()
+			startingEnergy = randRange(100, 130)
+			smellRadius = randRange(1, 5)
+			startingSmell = randRange(1, 5)
+			self.createCritter(startingEnergy, smellRadius, startingSmell)
 
 	def generateName(self, type):
 		if type == "c":
@@ -133,57 +168,67 @@ class MainFrame:
 		return nameString
 
 	def start(self):
-		self.createCritters(10)
-
-		pass
+		for i in range(8):
+			self.createBlock()
+		self.createInitialCritters(10)
+		self.maintainTotalEnergy
 
 	def iterate(self):
 		self.maintainTotalEnergy()
 
-	# def makeHungerList(self, object):
-	# 	'''creates a list of 4 values, containing the specified 
-	# 	critter's desire to go, in order, left, up, right, and down'''
-	# 	hungerList = [0, 0, 0, 0]
-	# 	#these values are hardcoded
-	# 	#these should be obtained from the object
-	# 	#x, y = object.getLocation()
-	# 	x = 2
-	# 	y = 3
-	# 	#radius should also be obtained from the object
-	# 	#radius = object.getRadius()
-	# 	radius = 3
-	# 	radiusList = createRadius(x, y, radius)
+	def makeHungerList(self, index):
+		'''creates a list of 4 values, containing the specified 
+		critter's desire to go, in order, left, up, right, and down'''
+		hungerList = [0, 0, 0, 0]
+		critter = self.critterList[index]
+		x = critter[1]
+		y = critter[2]
+		radius = critter[0].getSmellDistance()
+		radiusList = createRadius(x, y, radius)
 
-	# 	for fruit in self.fruitList:
-	# 		#get fruitLocation
-	# 		#if fruitLocation matches on of the radiusList
-	# 			#desire = distanceFromObject
-	# 			#made for both x and y and added
-	# 			#to the correct parts of the hungerList
+		for fruit in self.fruitList:
+			fruitX = fruit[1]
+			fruitY = fruit[2]
+			for coordinates in radiusList:
+				if (fruitX, fruitY) == coordinates:
+					desireX = fruitX - x
+					desireY = fruitY - y
+					if desireX > 0:
+						hungerList[2] += desireX
+					else:
+						hungerList[0] += abs(desireX)
+					if desireY > 0:
+						hungerList[1] += desireY
+					else:
+						hungerList[3] += abs(desireY)
+		return hungerList
 
-	# def makeHornyList(self, object):
-	# 	'''creates a list of 4 values, containing the specified 
-	# 	critter's desire to go, in order, left, up, right, and down'''
-	# 	hornyList = [0, 0, 0, 0]
-	# 	#these values are hardcoded
-	# 	#these should be obtained from the object
-	# 	#x, y = object.getLocation()
-	# 	x = 2
-	# 	y = 3
-	# 	#radius should also be obtained from the object
-	# 	#radius = object.getRadius()
-	# 	radius = 3
-	# 	radiusList = createRadius(x, y, radius)
+	def makeHornyList(self, index):
+		'''creates a list of 4 values, containing the specified 
+		critter's desire to go, in order, left, up, right, and down'''
+		hornyList = [0, 0, 0, 0]
+		myCritter = self.critterList[index]
+		x = myCritter[1]
+		y = myCritter[2]
+		radius = myCritter[0].getSmellDistance()
+		radiusList = createRadius(x, y, radius)
 
-	# 	#check the radiusList against the locations of all the objects in 
-	# 	#the object lists
-	# 	for critter in self.critterList:
-	# 		#get critter location
-	# 		#if critterLocation matches one of the radiusList
-	# 			#smelly = critter.getSmelly()
-	# 			#desire = smelly - distanceFromObject
-	# 			#this should be made for both the x and y, and added 
-	# 			#to the correct parts of hornyList
+		for critter in self.critterList:
+			critterX = critter[1]
+			critterY = critter[2]
+			for coordinates in radiusList:
+				if (critterX, critterY) == coordinates:
+					desireX = critterX - x
+					desireY = critterY - y
+					if desireX > 0:
+						hornyList[2] += desireX
+					else:
+						hornyList[0] += abs(desireX)
+					if desireY > 0:
+						hornyList[1] += desireY
+					else:
+						hornyList[3] += abs(desireY)
+		return hornyList
 
 if __name__ == "__main__":
 	myFrame = MainFrame()
