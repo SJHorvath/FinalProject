@@ -113,13 +113,15 @@ def handleKeys():
         if keyQueue:
         #Process any keys that might be currently pressed:
                 if 'a' in keyQueue:
-                        myCamera.strafeRight(.04)
+                        myCamera.strafeRight(.1)
                 if 'd' in keyQueue:
-                        myCamera.strafeLeft(.04)
+                        myCamera.strafeLeft(.1)
                 if 'w' in keyQueue:
-                        myCamera.moveForward(.04)
+                        myCamera.moveForward(.1)
                 if 's' in keyQueue:
-                        myCamera.moveBack(.04)
+                        myCamera.moveBack(.1)
+                if ' ' in keyQueue:
+                        myCamera.moveUp(.1)
  
         #Ideally, the amount we move should be calculated by (framerate / distance we want to move per second), because this function is called at every step
  
@@ -143,6 +145,7 @@ def mouseMoved(mouseX, mouseY):
  
  
 def Snowman(radius):
+        '''make the snowman'''
         glColor(1,1,1)
         #glMaterial(GL_FRONT, GL_AMBIENT, (1, 0, 1))
         glTranslate(0, radius, 0)
@@ -154,11 +157,9 @@ def Snowman(radius):
         glTranslate(0, -3*radius+.15, 0)
 
 def pacMan(size):
+        '''make a pacman'''
         glPushMatrix()
         glRotate(1, 23, 1, 23)
-        glColor(1, 1, 0)
-        glutSolidSphere(size+.02, 30, 30)
-        #glColor(.0, .0, .0) 
        
         glBegin(GL_TRIANGLES)
         glColor(0, 0, 0)
@@ -167,63 +168,29 @@ def pacMan(size):
         glVertex3f(0, -size, 0)
         glEnd()
 
-        # front endcap
-        glBegin(GL_TRIANGLES)
-        glColor(0, 0, 0)
-        glVertex3f(size, 0, size)
-        glVertex3f(0, 0, size)
-        glVertex3f(0, -size , size)
-        glEnd()
 
-        #bottom
-        glBegin(GL_QUADS)
-        glColor(0, 0, 0)
-        glVertex3f(0, 0, 0)
-        glVertex3f(size, 0, 0)
-        glVertex3f(size, 0, size)
-        glVertex3f(0, 0, size)
-        glEnd()
-
-        #back
-        glBegin(GL_QUADS)
-        glColor(0, 0, 0)
-        glVertex3f(0, 0, 0)
-        glVertex3f(0, -size, 0)
-        glVertex3f(0, -size, size)
-        glVertex3f(0, 0, size)
-        glEnd()
-
-        #top
-        glBegin(GL_QUADS)
-        glColor(0, 0, 0)
-        glVertex3f(0, -size, 0)
-        glVertex3f(size, 0, 0)
-        glVertex3f(size, 0, size)
-        glVertex3f(0, -size, size)
-        glEnd()
-
-
+        glColor(1, 1, 0)
         
-        glutSolidSphere(size, 30, 30)
+        glutSolidSphere(size, 15, 15)
         glPopMatrix()
 
 def Cone():
-    glTranslate(0, 0, 0)
-    glColor(0.82, 0.41, 0.12)
-    glRotate(90,1,0,0)
-    glutSolidCone(.15, .25, 15, 15)
+        glTranslate(0, 0, 0)
+        glColor(0.82, 0.41, 0.12)
+        glRotate(90,1,0,0)
+        glutSolidCone(.15, .25, 15, 15)
 
-    glTranslate(0, 0, -.15)
-    glColor(1, 0.41, 0.71)
-    glutSolidSphere(.2, 15, 15)
+        glTranslate(0, 0, -.15)
+        glColor(1, 0.41, 0.71)
+        glutSolidSphere(.2, 15, 15)
  
  
 def drawScene():
         '''Draws the entire scene to be viewed, consisting of three snowmen of different sizes and a grey floor.'''
    
  
-        for i in range(-5,5):
-                for j in range(-5,5):
+        for i in range(-10,10):
+                for j in range(-10,10):
                         glPushMatrix()
             #glMaterial(GL_FRONT, GL_AMBIENT, (.2*i, .2*j, .2));
                         glTranslatef(i*1.05,0,j * 1.05)
@@ -243,11 +210,29 @@ def drawScene():
         glTranslate(0,-0.5,0)
         glColor3f(0.421, 0.480, 0.542)
    
-        glBegin(GL_QUADS)
-        glVertex3f(-100, 0, -100)
-        glVertex3f(-100, 0,  100)
-        glVertex3f( 100, 0,  100)
-        glVertex3f( 100, 0, -100)
+        glColor3f(.3,.3,.3);
+        glBegin(GL_QUADS);
+        glVertex3f( -20,-0.001, -20);
+        glVertex3f( -20,-0.001, 20);
+        glVertex3f(20,-0.001,20);
+        glVertex3f(20,-0.001,-20);
+        glEnd();
+
+        glBegin(GL_LINES);
+        for i in range(-20,20):
+            if i == 0:
+                glColor3f(.6,.3,.3); 
+            else:
+                glColor3f(.75,.75,.75); 
+            #glVertex3f(i,0,0);
+            #glVertex3f(i,0,20);
+            if i==0: 
+                glColor3f(.3,.3,.6); 
+            else:
+                glColor3f(.75,.75,.75);
+                glVertex3f(0,0,i);
+                glVertex3f(-20,0,i);
+      
         glEnd()
         glPopMatrix()
  
