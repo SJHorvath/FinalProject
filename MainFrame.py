@@ -3,6 +3,8 @@ __author__ = "Julian Katz, RJ Silberman, and Jay Batavia"
 __version__ = 1.0
 
 import random
+from Critter import Critter
+from Fruit import Fruitf
 
 #empty = 0
 #block = -1
@@ -19,6 +21,8 @@ class MainFrame:
 		self.height = 0
 		self.totalEnergy = 0
 		self.energyLimit = 2000
+		self.critterCounter = 0
+		self.fruitCounter = 0
 
 	def createMatrix(self, width, height):
 		'''Creates list of lists (matrix).'''
@@ -31,9 +35,14 @@ class MainFrame:
 
 	def fillMatrix(self, width):
 		'''Fills matrix with zeros'''
-		for row in self.rows:
+		for i in range(len(self.rows)):
 			for x in range(self.width):
-				row.append(0)
+				if i == 0 or i == len(self.rows) - 1:
+					self.rows[i].append(-2)
+				elif x == 0 or x == self.width - 1:
+					self.rows[i].append(-2)
+				else:
+					self.rows[i].append(0)
 
 	def getMatrix(self):
 		'''returns the matrix'''
@@ -48,14 +57,13 @@ class MainFrame:
 		'''Calls visual functions.'''
 		pass
 
-	def createCritter(self, name):
+	def createCritter(self, startingEnergy, smellRadius, startingSmell):
 		'''adds a critter at a random spot on the grid.'''
 		x, y = self.randomCoordinate()
 		row = self.rows[x]
 		row[y] = 3
-		#create critter
-		#set critter location (object)
-		#add critter to self.critterList
+		individualCritter = [Critter(startingEnergy, smellRadius, startingSmell), x, y]
+		self.critterList.append[individualCritter]
 
 	def createFruit(self):
 		'''adds a fruit at a random spot on the grid.'''
@@ -73,8 +81,8 @@ class MainFrame:
 		row[y] = -1
 
 	def randomCoordinate(self):
-		x = random.randrange(0, self.width)
-		y = random.randrange(0, self.height)
+		x = random.randrange(1, self.width - 1)
+		y = random.randrange(1, self.height - 1)
 		if self.isEmpty(x, y):
 			return (x, y)
 		else:
@@ -110,71 +118,75 @@ class MainFrame:
 	def createCritters(self, number):
 		'''Creates a certain number of critters, with sequential names'''
 		names = []
-		for i in range(1, number + 1):
-			nameString = "Critter%i" % (i)
-			names.append(nameString)
+		for i in range(number):
+			names.append(self.generateName("c"))
 		for name in names:
-			matrixAddCritter(name)
+			createCritter()
 
+	def generateName(self, type):
+		if type == "c":
+			nameString = "Critter%i" % (self.critterCounter)
+			self.critterCounter += 1
+		if type == "f":
+			nameString = "Fruit%i" % (self.fruitCounter)
+			self.fruitCounter += 1
+		return nameString
 
 	def start(self):
-		#create desired number of critters
+		self.createCritters(10)
+
 		pass
 
 	def iterate(self):
 		self.maintainTotalEnergy()
 
-	def makeHungerList(self, object):
-		'''creates a list of 4 values, containing the specified 
-		critter's desire to go, in order, left, up, right, and down'''
-		hungerList = [0, 0, 0, 0]
-		#these values are hardcoded
-		#these should be obtained from the object
-		#x, y = object.getLocation()
-		x = 2
-		y = 3
-		#radius should also be obtained from the object
-		#radius = object.getRadius()
-		radius = 3
-		radiusList = createRadius(x, y, radius)
+	# def makeHungerList(self, object):
+	# 	'''creates a list of 4 values, containing the specified 
+	# 	critter's desire to go, in order, left, up, right, and down'''
+	# 	hungerList = [0, 0, 0, 0]
+	# 	#these values are hardcoded
+	# 	#these should be obtained from the object
+	# 	#x, y = object.getLocation()
+	# 	x = 2
+	# 	y = 3
+	# 	#radius should also be obtained from the object
+	# 	#radius = object.getRadius()
+	# 	radius = 3
+	# 	radiusList = createRadius(x, y, radius)
 
-		for fruit in self.fruitList:
-			#get fruitLocation
-			#if fruitLocation matches on of the radiusList
-				#desire = distanceFromObject
-				#made for both x and y and added
-				#to the correct parts of the hungerList
+	# 	for fruit in self.fruitList:
+	# 		#get fruitLocation
+	# 		#if fruitLocation matches on of the radiusList
+	# 			#desire = distanceFromObject
+	# 			#made for both x and y and added
+	# 			#to the correct parts of the hungerList
 
-	def makeHornyList(self, object):
-		'''creates a list of 4 values, containing the specified 
-		critter's desire to go, in order, left, up, right, and down'''
-		hornyList = [0, 0, 0, 0]
-		#these values are hardcoded
-		#these should be obtained from the object
-		#x, y = object.getLocation()
-		x = 2
-		y = 3
-		#radius should also be obtained from the object
-		#radius = object.getRadius()
-		radius = 3
-		radiusList = createRadius(x, y, radius)
+	# def makeHornyList(self, object):
+	# 	'''creates a list of 4 values, containing the specified 
+	# 	critter's desire to go, in order, left, up, right, and down'''
+	# 	hornyList = [0, 0, 0, 0]
+	# 	#these values are hardcoded
+	# 	#these should be obtained from the object
+	# 	#x, y = object.getLocation()
+	# 	x = 2
+	# 	y = 3
+	# 	#radius should also be obtained from the object
+	# 	#radius = object.getRadius()
+	# 	radius = 3
+	# 	radiusList = createRadius(x, y, radius)
 
-		#check the radiusList against the locations of all the objects in 
-		#the object lists
-		for critter in self.critterList:
-			#get critter location
-			#if critterLocation matches one of the radiusList
-				#smelly = critter.getSmelly()
-				#desire = smelly - distanceFromObject
-				#this should be made for both the x and y, and added 
-				#to the correct parts of hornyList
+	# 	#check the radiusList against the locations of all the objects in 
+	# 	#the object lists
+	# 	for critter in self.critterList:
+	# 		#get critter location
+	# 		#if critterLocation matches one of the radiusList
+	# 			#smelly = critter.getSmelly()
+	# 			#desire = smelly - distanceFromObject
+	# 			#this should be made for both the x and y, and added 
+	# 			#to the correct parts of hornyList
 
 if __name__ == "__main__":
 	myFrame = MainFrame()
-	myFrame.createMatrix(5, 8)
-	myFrame.matrixAddBlock(0, 0)
-	myFrame.matrixAddFruit(0, 1)
-	myFrame.matrixAddCritter(1, 1)
+	myFrame.createMatrix(8, 8)
 	# print myFrame.createRadius(1, 1, 20)
 	myFrame.printMatrix()
-	print myFrame.createCritters(10)
