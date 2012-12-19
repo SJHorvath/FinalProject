@@ -82,8 +82,8 @@ import sys, random, math
 import Camera
  
 NAME = 'Snowmen!'
-WINDOW_WIDTH = 640
-WINDOW_HEIGHT = 480
+WINDOW_WIDTH = 1000
+WINDOW_HEIGHT = 700
  
 #Create a "blank" camera that can be accessed by all functions... this is probably the wrong way to do it...
 myCamera = Camera.Camera(0,.5,2)
@@ -147,10 +147,10 @@ def initLighting():
         glLightfv(GL_LIGHT0, GL_DIFFUSE, light_diffuse)
         glLightfv(GL_LIGHT0, GL_POSITION, light_position)
  
-        light_ambient = (.5, .5, .5, 1)
-        light_position = (0, 0, 1, 0)
-        glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient)
-        glLightfv(GL_LIGHT1, GL_POSITION, light_position)
+        #light_ambient = (.5, .5, .5, 1)
+        #light_position = (0, 0, 1, 0)
+        #glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient)
+        #glLightfv(GL_LIGHT1, GL_POSITION, light_position)
         glEnable(GL_COLOR_MATERIAL);
         glEnable(GL_DEPTH_TEST)
         glEnable(GL_LIGHTING)
@@ -220,8 +220,8 @@ def mouseMoved(mouseX, mouseY):
  
  
 def Snowman(radius):
- 
-        glMaterial(GL_FRONT, GL_AMBIENT, (1, 0, 1))
+        glColor(1,1,1)
+        #glMaterial(GL_FRONT, GL_AMBIENT, (1, 0, 1))
         glTranslate(0, radius, 0)
         glutSolidSphere(.15, 15, 15)
         glTranslate(0, radius, 0)
@@ -232,6 +232,8 @@ def Snowman(radius):
 
 def pacMan(size):
         glPushMatrix()
+        glRotate(1, 23, 1, 23)
+        glColor(1, 1, 0)
         glutSolidSphere(size+.02, 30, 30)
         #glColor(.0, .0, .0) 
        
@@ -277,7 +279,7 @@ def pacMan(size):
         glVertex3f(0, -size, size)
         glEnd()
 
-        glRotate(-26, 1, 1, 1)
+
         
         glutSolidSphere(size, 30, 30)
         glPopMatrix()
@@ -293,7 +295,6 @@ def drawScene():
             #glMaterial(GL_FRONT, GL_AMBIENT, (.2*i, .2*j, .2));
                         glTranslatef(i*1.05,0,j * 1.05)
  
-                        glColor3f(0.4*+i, 0.3*+j,0.3);
                         if i == 2:
                                 Snowman(.1)
                         elif j == 3:
