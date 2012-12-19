@@ -100,7 +100,7 @@ class Critter(Organism):
 
             #Tuple!
             NRG = self.energy / 2
-            return (NRG, newSense, newRatio newEndurance)
+            return (NRG, newSense, newRatio, newEndurance)
         
         else:
             return None
@@ -138,7 +138,6 @@ class Critter(Organism):
         #...Which makes it easy to choose the value with the strongest smell while remembering which direction it corresponds to.
         #sort() sorts by the first item in a tuple by default
         directionList.sort(reverse=False)
-        print directionList
         spotCheck = []
         for i in range(0, len(directionList)+1):
             	if directionList[3][0] > directionList[3-(i+1)][0]:		
