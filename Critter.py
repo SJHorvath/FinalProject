@@ -31,10 +31,12 @@ class Critter(Organism):
         
     def move(self, critterTuple, fruitTuple):
         '''Takes two tuples from the World, containing the total smell of critters and fruit (respectively) in each of the four cardinal directions.  The critter then moves toward direction with the strongest smell: if it is hungry, it seeks out fruit.  Otherwise, it seeks out other critters to reproduce.'''
-
         if self.hungry:
+            #If the critter is hungry, it checks fruit-smells in each direction.
             self.pickHighest(fruitTuple)
+            
         else:
+            #Otherwise, it checks critter smells.
             self.pickHighest(critterTuple)
 
         
@@ -62,16 +64,22 @@ class Critter(Organism):
         
     def checkHunger(self):
         '''Updates whether or not the critter is hungry (if it isn't, it's ready to mate) based on its energy level.'''
+        #If it isn't hungry now, check if it should be:
         if not self.hungry:
+
             if self.energy < self.hungerThreshold:
+                #If energy has fallen back below the hunger threshold...
                 self.hungry = True
+                
+        #If it is hungry, check if it's ready to mate instead.
         else:
             if self.energy > self.matingThreshold:
+                #If energy is above the ready-to-mate threshold....
                 self.hungry = False
 
 
     def mate(self, otherCritter):
-        
+        ''' '''
         if not self.hungry:
             newEnergy = self.energy/2
             newSmell = self.randomBetween( self.smell, otherCritter.getSmell() )
@@ -87,7 +95,7 @@ class Critter(Organism):
         sortingList = [value1, value2]
         sortingList.sort()
 
-        return random.random(sortingList[0] - 1, sortingList[1] + 1)
+        return int(random.triangular(sortingList[0] - 1, sortingList[1] + 1))
     
 
     def eat(self, fruit):
@@ -98,14 +106,27 @@ class Critter(Organism):
     def pickHighest(self, choices):
         directionList = []
 
+        #Create a list of tuples, each containing a (smell value, direction it corresponds to) pair...
         for i in range(len(choices)):
             directionList.append((choices[i], i))
-            
+
+        #...Which makes it easy to choose the value with the strongest smell while remembering which direction it corresponds to.
+        #sort() sorts by the first item in a tuple by default
         choiceList.sort()
 
-        #Negative values 
-        if choiceList[0][0] >= 0:
-            return choiceList[0][1]
+        #Figure out if several values in the list are equal - if so, we need to choose randomly between them.
+        #Our choices can easily be represented as a range between 0 and [number of equal largest values] to choose from:
+        choiceRange = 0
+        
+        for i range(1, len(choiceList)):
+            #If we've reached the point where an item is not equal 
+            if choiceList[i][0] != choiceList[0][0]:
+                break
+
+            else:
+                choiceRange += 1
+
+        return choiceList[ int(random.triangular(0, choiceRange)) ][1]
 
 
     def isReadyToMate(self):
