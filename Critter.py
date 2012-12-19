@@ -16,7 +16,7 @@ class Critter(Organism):
         self.__type__ = "Critter"
         
         #Initialize all the parameters contained in the Organism superclass
-        Organism.__init__(self, startingEnergy, int(smellRatio * startingEnergy), METABOLISM)
+        Organism.__init__(self, startingEnergy, int(startingEnergy/smellRatio), METABOLISM)
 
         #Set sense of smell radius, hunger and mating thresholds, and energy-to-smell ratio
         self.smellRatio = smellRatio
@@ -90,9 +90,9 @@ class Critter(Organism):
         #If it ain't hungry, it's ready to mate!
         if not self.hungry:
             #The other two traits will be chosen randomly, with the values of its two parents used as the range of possible values.
-            newRatio = self.randomBetween( self.smellRatio, otherCritter.smellRatio )
-            newSense = int(self.randomBetween( self.sense, otherCritter.sense ))
-            newEndurance = int(self.randomBetween( self.getEndurance(), otherCritter.getEndurance() ))
+            newRatio = int(self.randomBetween( self.smellRatio-1, otherCritter.smellRatio+1 ))
+            newSense = int(self.randomBetween( self.sense-1, otherCritter.sense+1 ))
+            newEndurance = int(self.randomBetween( self.getEndurance()-1, otherCritter.getEndurance()+1 ))
 
             #Make the critter lose energy after mating, to discourage them from staying in the same place and having lots of babbys
             for i in range(2):
@@ -100,7 +100,7 @@ class Critter(Organism):
 
             #Tuple!
             NRG = self.energy / 2
-            return (NRG, newRatio, newSense, newEndurance)
+            return (NRG, newSense, newRatio newEndurance)
         
         else:
             return None
