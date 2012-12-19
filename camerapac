@@ -1,0 +1,69 @@
+from OpenGL.GLUT import *
+from OpenGL.GLU import *
+from OpenGL.GL import *
+import math 
+class Camera:
+
+  
+
+	def __init__(self):
+		'''camera'''
+ 		# Set up the callback function to process key presses
+   		# Probably put this in the initialization function
+		self.positionX=0.0
+		self.positionY=0.0
+		self.positionZ=0.0
+		self.rotateX=1.0
+		self.rotateY=1.0
+		self.rotateZ=1.0
+		self.angleY=0.0
+		self.lx = 0.0
+		self.lz=0.0
+
+	def renderCamera(self):
+
+		#print "Camera is at: ", self.positionX, self.positionY, self.positionZ
+		glRotatef(-self.rotateX , 1.0, 0.0, 0.0)
+		glRotatef(-self.rotateY , 0.0, 1.0, 0.0)
+		glRotatef(-self.rotateZ , 0.0, 0.0, 1.0)
+		
+		glTranslatef(-self.positionX, -self.positionY, -self.positionZ )
+	
+	def keyPressed(self, key, x, y):
+		print "Pressed key: ", key
+
+		if key == 'w':
+			self.rotateX=self.rotateX+5			
+			print self.rotateX
+		if key == 'a':
+			#self.rotateY=self.rotateY+1
+			#self.rotateX=self.rotateX+1			
+			yrotrad = self.rotateY/180*math.pi
+			self.positionX=self.positionX- math.cos(yrotrad)*.01
+			self.positionZ= self.positionZ-math.sin(yrotrad)*.01
+
+		if key == 's':
+			self.rotateX=self.rotateX-5			
+		if key == 'd':
+			#self.rotateY=self.rotateY-1
+			#self.rotateX=self.rotateX-1
+			yrotrad = self.rotateY/180*math.pi
+			self.positionX=self.positionX+math.cos(yrotrad)*.01
+			self.positionZ= self.positionZ+math.sin(yrotrad)*.01		
+		#if key == 'w':
+		#	self.positionZ = self.positionZ + .05
+		#if key == 's':
+		#	self.positionZ = self.positionZ - .05
+					
+		
+	
+	
+		
+
+	def strafeRight(self, amount):
+		self.positionX += amount
+
+   	
+
+    
+	
