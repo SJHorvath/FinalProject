@@ -34,15 +34,15 @@ class Critter(Organism):
         return self.sense
 
         
-    def move(self, critterTuple, fruitTuple):
+    def move(self, critterList, fruitList):
         '''Takes two tuples from the World, containing the total smell of critters and fruit (respectively) in each of the four cardinal directions. The critter then moves toward direction with the strongest smell: if it is hungry, it seeks out fruit. Otherwise, it seeks out other critters to reproduce.'''
         if self.hungry:
             #If the critter is hungry, it checks fruit-smells in each direction.
-            self.pickHighest(fruitTuple)
+            return self.pickHighest(fruitList)
             
         else:
             #Otherwise, it checks critter smells.
-            self.pickHighest(critterTuple)
+            return self.pickHighest(critterList)
 
         
     def processCollision(self, passed):
@@ -136,7 +136,7 @@ class Critter(Organism):
 
         #...Which makes it easy to choose the value with the strongest smell while remembering which direction it corresponds to.
         #sort() sorts by the first item in a tuple by default
-        directionList.sort()
+        directionList.sort(reverse=True)
 
         #Figure out if several values in the list are equal - if so, we need to choose randomly between them.
         #Our choices can easily be represented as a range between 0 and [number of equal largest values] to choose from:
@@ -152,4 +152,4 @@ class Critter(Organism):
                 choiceRange += 1
 
         #Now, choose a random direction with the "best smell" and return its original index.
-        return directionList[ int(random.triangular(0, choiceRange)) ][1]
+        return directionList[ int(round(random.triangular(0, choiceRange))) ][1]
