@@ -209,45 +209,37 @@ def drawScene():
        
         #Draw the ground... adapted from C++ code found at http://www.lighthouse3d.com/opengl/picking/index.php3?color1
    
-        glTranslate(0,-0.5,0)
+        glTranslate(-1,-0.5,-1)
         glColor3f(0.1,0.9,0.1)
 
         glBegin(GL_QUADS)
-        glVertex3f(-100, 0, -100)
-        glVertex3f(-100, 0,  100)
-        glVertex3f( 100, 0,  100)
-        glVertex3f( 100, 0, -100)
+        glVertex3f(-12, 0, -12)
+        glVertex3f(-12, 0,  12)
+        glVertex3f( 12, 0,  12)
+        glVertex3f( 12, 0, -12)
         glEnd()
         #It's [slate] grey!
-        # glPushMatrix()
-        # glTranslate(-10,-0.5,-10)
-        # glColor3f(0.421, 0.480, 0.542)
-   
-        # glColor3f(.3,.3,.3);
-        # glBegin(GL_QUADS);
-        # glVertex3f( -10,-0.001, -10);
-        # glVertex3f( -10,-0.001, 10);
-        # glVertex3f(10,-0.001,10);
-        # glVertex3f(10,-0.001,-10);
-        # glEnd();
+        glPushMatrix()
+        glTranslate(-10,0.01,-10)
+        glColor3f(0.421, 0.480, 0.542)
+  
 
-        # glBegin(GL_LINES);
-        # for i in range(-20,20):
-        #     if i == 0:
-        #         glColor3f(.6,.3,.3); 
-        #     else:
-        #         glColor3f(.75,.75,.75); 
-        #     glVertex3f(i,0,0);
-        #     glVertex3f(i,0,20);
-        #     if i==0: 
-        #         glColor3f(.3,.3,.6); 
-        #     else:
-        #         glColor3f(.75,.75,.75);
-        #         glVertex3f(0,0,i);
-        #         glVertex3f(20,0,i);
-      
-        # glEnd()
-        # glPopMatrix()
+        glBegin(GL_LINES);
+        for i in range(-2,22):
+            if i <= 0:
+                glColor3f(.6,.3,.3); 
+            else:
+                glColor3f(.75,.75,.75);			
+            glVertex3f(i,0,0);
+            glVertex3f(i,0,22);
+            if i==0: 
+                glColor3f(.3,.3,.6); 
+            else:
+                glColor3f(.75,.75,.75);
+                glVertex3f(0,0,i);
+                glVertex3f(22,0,i);
+        glEnd()
+        glPopMatrix()
  
    
 def display(x=0, y=0):
