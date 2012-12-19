@@ -6,23 +6,23 @@ __version__ = 6.9
 import random
 from Organism import Organism
 
-MATING_THRESHOLD = 130
 HUNGER_THRESHOLD = 110
 METABOLISM = 1
 
 class Critter(Organism):
 
-    def __init__(self, startingEnergy, senseOfSmell, startingSmell):
+    def __init__(self, startingEnergy, senseOfSmell, smellRatio, endurance):
         '''Creates a new critter with the specified energy level, sense of smell (as a radius), and smell strength.'''
         self.__type__ = "Critter"
         
         #Initialize all the parameters contained in the Organism superclass
-        Organism.__init__(self, startingEnergy, startingSmell, METABOLISM)
+        Organism.__init__(self, startingEnergy, int(smellRatio * startingEnergy), METABOLISM)
 
-        #Set sense of smell radius, hunger, and mating thresholds
+        #Set sense of smell radius, hunger and mating thresholds, and energy-to-smell ratio
+        self.smellRatio = smellRatio
         self.sense = senseOfSmell
         self.hungerThreshold = HUNGER_THRESHOLD 
-        self.matingThreshold = MATING_THRESHOLD
+        self.matingThreshold = HUNGER_THRESHOLD + endurance
 
         #Sets self.hungry based on energy
         self.hungry = True
@@ -61,6 +61,7 @@ class Critter(Organism):
         #Superclass method!
         Organism.loseEnergy(self)
         self.checkHunger()
+        self.updateSmell()
 
         
     def checkHunger(self):
@@ -79,18 +80,22 @@ class Critter(Organism):
                 self.hungry = False
 
 
+    def updateSmell(self):
+        '''Updates the strength of the critter's smell based on its energy level and inherited smell-to-energy-ratio trait.'''
+        self.smell = int(self.smellRatio * self.energy)
+
+
     def mate(self, otherCritter):
         '''Given another critter, returns a tuple of randomly-chosen inherited traits for their child... if the critter is ready to mate.  Otherwise, it returns None.'''
         #If it ain't hungry, it's ready to mate!
         if not self.hungry:
-            #Each of the critter's two children will inherit half its energy.
-            newEnergy = self.energy/2
             #The other two traits will be chosen randomly, with the values of its two parents used as the range of possible values.
-            newSmell = self.randomBetween( self.smell, otherCritter.getSmell() )
-            newSense = self.randomBetween( self.sense, otherCritter.getSmellDistance() )
+            newRatio = self.randomBetween( self.smellRatio, otherCritter.smellRatio )
+            newSense = int(self.randomBetween( self.sense, otherCritter.sense ))
+            newEndurance = int(self.randomBetween( self.getEndurance(), otherCritter.getEndurance() ))
 
             #Tuple!
-            return (newEnergy, newSmell, newSense)
+            return (newRatio, newSense, newEndurance)
         
         else:
             return None
@@ -102,13 +107,19 @@ class Critter(Organism):
         sortingList = [value1, value2]
         sortingList.sort()
 
-        return int(random.triangular(sortingList[0], sortingList[1]))
-    
+        return random.triangular(sortingList[0], sortingList[1])
+
+
+    def getEndurance(self):
+        '''Returns the difference between the critter's mating threshold and its go-back-to-being-hungry threshold.'''
+        return self.matingThreshold - self.hungerThreshold
+
 
     def eat(self, fruit):
         '''Takes the energy of a given fruit and adds it to the critter's own energy.  Assumes that the World will destroy the fruit afterward.'''
         self.energy += fruit.getEnergy()
         self.checkHunger()
+        self.updateSmell()
 
 
     def pickHighest(self, choices):
