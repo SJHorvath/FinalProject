@@ -154,7 +154,7 @@ class Critter(Organism):
                     choiceRange += 1
 
             #Now, choose a random direction with the "best smell" and return its original index.
-                    return directionList[ int(round(random.triangular(0, choiceRange))) ][1]
+            return directionList[ int(round(random.triangular(0, choiceRange))) ][1]
                 
         else:
             return -1
